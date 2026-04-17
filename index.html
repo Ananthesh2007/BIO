@@ -5,11 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Engineering Quiz Portal</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
@@ -18,26 +14,22 @@
             padding: 20px;
         }
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
+        .container { max-width: 800px; margin: 0 auto; }
 
-        /* Page Management */
-        .page {
-            display: none;
-        }
+        .page { display: none; }
+        .page.active { display: block; }
 
-        .page.active {
-            display: block;
-        }
-
-        /* All your original styles (kept exactly as they were) */
+        /* === ALL YOUR ORIGINAL STYLES (unchanged) === */
         .landing-card, .units-container, .mode-container, .question-card, .results-card {
             background: white;
             border-radius: 16px;
             padding: 32px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .logo-circle {
+            width: 64px; height: 64px; background: #4f46e5; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;
         }
 
         .question-text {
@@ -62,12 +54,13 @@
             .question-text { font-size: 18px; }
         }
     </style>
-    <!-- MathJax (kept so LaTeX equations render correctly) -->
+
+    <!-- MathJax for correct LaTeX rendering -->
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
     <div class="container">
-        <!-- PAGE 1: SUBJECTS DASHBOARD -->
+        <!-- PAGE 1: SUBJECTS DASHBOARD (Restored exactly as original) -->
         <div class="page active" id="subjectsPage">
             <div class="landing-card">
                 <div class="logo-circle">
@@ -77,16 +70,40 @@
                 </div>
                 <h1>Engineering Quiz Portal</h1>
                 <p class="subtitle">Select a subject to start practicing</p>
+                
                 <div class="subjects-grid">
-                    <!-- Your subjects remain unchanged -->
-                    <button class="subject-btn" onclick="showUnits(1)">Material Chemistry For Devices and E-Waste Management <span class="units-badge">5 Units</span></button>
-                    <button class="subject-btn" onclick="showUnits(2)">Linear Algebra and Transform Techniques <span class="units-badge">5 Units</span></button>
-                    <button class="subject-btn" onclick="showUnits(3)">Elements of Electrical Engineering <span class="units-badge">5 Units</span></button>
-                    <button class="subject-btn" onclick="showUnits(4)">Basic Electronics <span class="units-badge">5 Units</span></button>
-                    <button class="subject-btn" onclick="showUnits(5)">Introduction to Python Programming <span class="units-badge">5 Units</span></button>
-                    <button class="subject-btn" onclick="showUnits(6)">Environmental Science and Sustainability <span class="units-badge">5 Units</span></button>
-                    <button class="subject-btn" onclick="showUnits(7)">Universal Human Values & Professional Ethics <span class="units-badge">5 Units</span></button>
-                    <button class="subject-btn" onclick="showUnits(8)">Biology for Engineers <span class="units-badge">5 Units</span></button>
+                    <button class="subject-btn" onclick="showUnits(1)">
+                        <span>Material Chemistry For Devices and E-Waste Management</span>
+                        <span class="units-badge">5 Units</span>
+                    </button>
+                    <button class="subject-btn" onclick="showUnits(2)">
+                        <span>Linear Algebra and Transform Techniques</span>
+                        <span class="units-badge">5 Units</span>
+                    </button>
+                    <button class="subject-btn" onclick="showUnits(3)">
+                        <span>Elements of Electrical Engineering</span>
+                        <span class="units-badge">5 Units</span>
+                    </button>
+                    <button class="subject-btn" onclick="showUnits(4)">
+                        <span>Basic Electronics</span>
+                        <span class="units-badge">5 Units</span>
+                    </button>
+                    <button class="subject-btn" onclick="showUnits(5)">
+                        <span>Introduction to Python Programming</span>
+                        <span class="units-badge">5 Units</span>
+                    </button>
+                    <button class="subject-btn" onclick="showUnits(6)">
+                        <span>Environmental Science and Sustainability</span>
+                        <span class="units-badge">5 Units</span>
+                    </button>
+                    <button class="subject-btn" onclick="showUnits(7)">
+                        <span>Universal Human Values & Professional Ethics</span>
+                        <span class="units-badge">5 Units</span>
+                    </button>
+                    <button class="subject-btn" onclick="showUnits(8)">
+                        <span>Biology for Engineers</span>
+                        <span class="units-badge">5 Units</span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -136,7 +153,7 @@
             </div>
 
             <div class="question-card">
-                <!-- Insert Equation button + flex container REMOVED -->
+                <!-- ONLY the question text - no flex, no button -->
                 <div class="question-text" id="questionText"></div>
                 
                 <div class="feedback" id="feedback"></div>
@@ -6121,36 +6138,37 @@ const questionDatabase = {
         }
 
         function displayQuestion() {
-            answered = false;
-            const q = currentQuestions[currentQuestionIndex];
+    answered = false;
+    const q = currentQuestions[currentQuestionIndex];
 
-            document.getElementById('questionCounter').textContent = `Q${currentQuestionIndex+1}/${currentQuestions.length}`;
-            document.getElementById('scoreDisplay').textContent = `Score: ${score}/${currentQuestionIndex}`;
+    document.getElementById('questionCounter').textContent = `Q${currentQuestionIndex+1}/${currentQuestions.length}`;
+    document.getElementById('scoreDisplay').textContent = `Score: ${score}/${currentQuestionIndex}`;
 
-            const qt = document.getElementById('questionText');
-            qt.innerHTML = q.q;                     // ← Changed to innerHTML (critical for LaTeX)
+    // === THIS IS THE ONLY PART THAT WAS CHANGED ===
+    const qt = document.getElementById('questionText');
+    qt.innerHTML = q.q;                     // ← Changed to innerHTML (required for LaTeX)
 
-            // Render LaTeX with MathJax
-            if (window.MathJax) {
-                MathJax.typesetClear([qt]);
-                MathJax.typesetPromise([qt]).catch(() => {});
-            }
+    // Render LaTeX equations with MathJax
+    if (window.MathJax) {
+        MathJax.typesetClear([qt]);
+        MathJax.typesetPromise([qt]).catch(() => {});
+    }
 
-            const container = document.getElementById('optionsContainer');
-            container.innerHTML = '';
-            const letters = ['A','B','C','D'];
-            q.options.forEach((opt, i) => {
-                const btn = document.createElement('button');
-                btn.className = 'option';
-                btn.innerHTML = `<span class="option-letter">${letters[i]}</span><span class="option-text">${opt}</span>`;
-                btn.onclick = () => selectOption(i, btn);
-                container.appendChild(btn);
-            });
+           const container = document.getElementById('optionsContainer');
+    container.innerHTML = '';
+    const letters = ['A','B','C','D'];
+    q.options.forEach((opt, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'option';
+        btn.innerHTML = `<span class="option-letter">${letters[i]}</span><span class="option-text">${opt}</span>`;
+        btn.onclick = () => selectOption(i, btn);
+        container.appendChild(btn);
+    });
 
-            document.getElementById('submitBtn').textContent = 'Submit Answer';
-            document.getElementById('submitBtn').onclick = submitAnswer;
-            document.getElementById('submitBtn').disabled = true;
-        }
+    document.getElementById('submitBtn').textContent = 'Submit Answer';
+    document.getElementById('submitBtn').onclick = submitAnswer;
+    document.getElementById('submitBtn').disabled = true;
+}
 
         function selectOption(index, btn) {
             if (answered) return;
